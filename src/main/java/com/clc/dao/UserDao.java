@@ -10,5 +10,6 @@ public interface UserDao {
 	public List<UserModel> listUsers();
 	public UserModel getUserById(int id);
 	public int removeUser(int id);
+	public int loginUser(String username, String password);
 	
 }

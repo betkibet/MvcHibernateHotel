@@ -1,5 +1,7 @@
 package com.clc.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.clc.model.UserModel;
 import com.clc.service.UserService;
@@ -35,6 +38,7 @@ public class DriverController {
 		
 	}
 	
+	
 	@RequestMapping(value="/register", method = RequestMethod.POST)
 	public String addUser(@ModelAttribute("user") UserModel userModel) {
 		if(userModel.getId() == 0) {
@@ -43,8 +47,25 @@ public class DriverController {
 		else {
 			this.userService.updateUser(userModel);
 		}
-		return "redirect:/users";
+		return "redirect:/products";
 		
+	}
+	@RequestMapping(value="/login", method = RequestMethod.GET)
+	public String loginPage(@ModelAttribute("user") UserModel userModel) {
+		
+		return "login";
+	}
+	
+	@RequestMapping(value="/login", method = RequestMethod.POST)
+	public String loginUser(HttpServletRequest req) {
+		int i=this.userService.loginUser(req.getParameter("username"), req.getParameter("password"));
+		System.out.println(i);
+		if (i>0) {
+			return "redirect:/products";
+		}
+		else {
+			return "users";
+		}
 	}
 	
 	@RequestMapping("/user/remove/{id}")

@@ -46,5 +46,10 @@ public class UserServiceImpl implements UserService{
 		this.userDao.removeUser(id);
 		return 1;
 	}
+	@Override
+	public int loginUser(String username, String password) {
+		this.userDao.loginUser(username, password);
+		return 1;
+	}
 
 }

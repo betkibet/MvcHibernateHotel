@@ -2,8 +2,10 @@ package com.clc.dao;
 
 import java.util.List;
 
+import javax.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -65,6 +67,26 @@ public class UserDaoImpl implements UserDao{
 		}
 		session.close();
 		return 1;
+	}
+	
+	@Override
+	public int loginUser(String username, String password) {
+		Session session = this.sessionFactory.openSession();
+		String hql = "FROM com.clc.model.UserModel u where u.username =:username AND u.password =:password";
+		Transaction tx = session.beginTransaction();
+		Query qry = (Query) session.createQuery(hql);
+		qry.setParameter("username", username);
+		qry.setParameter("password", password);
+		
+		UserModel u = (UserModel) qry.getSingleResult();
+		tx.commit();
+//		List<UserModel> list=qry.list();
+		session.close();
+		/*
+		 * if(!list.isEmpty()) { return 1; } else { return 0; }
+		 */
+		return 1;
+		
 	}
 
 }

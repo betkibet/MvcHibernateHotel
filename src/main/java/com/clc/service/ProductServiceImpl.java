@@ -3,10 +3,11 @@ package com.clc.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.clc.dao.ProductDao;
 import com.clc.model.ProductModel;
-
+@Service
 public class ProductServiceImpl implements ProductService {
 	@Autowired
 	private ProductDao productDao;
